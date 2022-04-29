@@ -43,3 +43,25 @@ ALTER TABLE animals ADD CONSTRAINT fk_animals_table FOREIGN KEY(species_id) REFE
 -- Add column owner_id which is a foreign key referencing the owners table
 ALTER TABLE animals ADD owner_id INT;
 ALTER TABLE animals ADD CONSTRAINT fk_owner_table FOREIGN KEY(owner_id) REFERENCES owners(id);
+
+-- Create a table named vets with the following columns:
+-- id: integer
+-- name: string
+-- age: integer
+-- date_of_graduation: date
+CREATE TABLE vets(
+  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name VARCHAR(50),
+  age INT,
+  date_of_graduation INT
+)
+CREATE TABLE specializations(
+  SELECT *
+  FROM species 
+  FULL JOIN vets ON species.key = vets.key
+)
+CREATE TABLE visits(
+  SELECT *
+  FROM animals
+  FULL JOIN vets ON animals.key = vets.key
+)
