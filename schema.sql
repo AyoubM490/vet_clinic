@@ -20,8 +20,8 @@ ALTER TABLE animals ADD species VARCHAR(50);
 -- full_name: string
 -- age: integer
 CREATE TABLE owners(
- id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
- full_name VARCHAR(50),
+ id SERIAL PRIMARY KEY,
+ full_name varchar(100),
  age INT
 );
 
@@ -29,8 +29,8 @@ CREATE TABLE owners(
 -- id: integer (set it as autoincremented PRIMARY KEY)
 -- name: string
 CREATE TABLE species(
- id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
- name VARCHAR(50)
+ id SERIAL PRIMARY KEY,
+ name VARCHAR(100)
 );
 
 -- Remove column species
@@ -50,18 +50,21 @@ ALTER TABLE animals ADD CONSTRAINT fk_owner_table FOREIGN KEY(owner_id) REFERENC
 -- age: integer
 -- date_of_graduation: date
 CREATE TABLE vets(
-  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  name VARCHAR(50),
+  id serial not null primary key,
+  name VARCHAR(100),
   age INT,
-  date_of_graduation INT
+  date_of_graduation date
 )
 CREATE TABLE specializations(
-  SELECT *
-  FROM species 
-  FULL JOIN vets ON species.key = vets.key
+  vet_id int,
+  species_id int,
+  CONSTRAINT fk_species FOREIGN KEY(species_id) REFERENCES species(id),
+  CONSTRAINT fk_vets FOREIGN KEY(vet_id) REFERENCES vets(id)
 )
 CREATE TABLE visits(
-  SELECT *
-  FROM animals
-  FULL JOIN vets ON animals.key = vets.key
+  animal_id int,
+  vet_id int,
+  date_of_visit date,
+  CONSTRAINT fk_vets FOREIGN KEY(vet_id) REFERENCES vets(id),
+  CONSTRAINT fk_animals FOREIGN KEY(animal_id) REFERENCES animals(id)
 )
