@@ -11,7 +11,6 @@ INSERT INTO owners(
   34
 );
 
-
 -- Insert 'Jennifer Orwell 19 years old.'
 INSERT INTO owners (
 	full_name,
@@ -277,42 +276,6 @@ INSERT into animals (
   4,
 	4
 );
-
-BEGIN;
-UPDATE animals
-SET species = 'unspecified';
-SELECT * FROM animals;
-ROLLBACK;
-SELECT * FROM animals;
-
-BEGIN;
-UPDATE animals
-SET species = 'digimon'
-WHERE name LIKE '%mon';
-UPDATE animals
-SET species = 'pokemon'
-WHERE species IS NULL;
-COMMIT;
-SELECT * FROM animals;
-
-BEGIN;
-DELETE
-FROM animals;
-ROLLBACK;
-SELECT * FROM animals;
-
-BEGIN;
-DELETE
-FROM animals
-WHERE date_of_birth > 'January 1, 2022';
-SAVEPOINT younger_deleted;
-UPDATE animals
-SET weight_kg = weight_kg * (-1);
-ROLLBACK TO younger_deleted;
-UPDATE animals
-SET weight_kg = weight_kg * (-1)
-WHERE weight_kg < 0;
-COMMIT;
 
 COMMIT;
 
