@@ -174,3 +174,54 @@ JOIN animals ON animals.id = visits.animal_id
 JOIN species ON species.id = animals.species_id
 WHERE vets.name = 'Maisy Smith'
 GROUP BY species.name;
+
+-- Inside a transaction update the animals table by setting the species column to unspecified. Verify that change was made. Then roll back the change and verify that species columns went back to the state before transaction.
+BEGIN;
+UPDATE animals
+SET species = 'unspecified';
+SELECT * FROM animals;
+ROLLBACK;
+SELECT * FROM animals;
+
+-- Inside a transaction:
+-- Update the animals table by setting the species column to digimon for all animals that have a name ending in mon.
+-- Update the animals table by setting the species column to pokemon for all animals that don't have species already set.
+-- Commit the transaction.
+-- Verify that change was made and persists after commit.
+BEGIN;
+UPDATE animals
+SET species = 'digimon'
+WHERE name LIKE '%mon';
+UPDATE animals
+SET species = 'pokemon'
+WHERE species IS NULL;
+COMMIT;
+SELECT * FROM animals;
+
+-- Inside a transaction delete all records in the animals table, then roll back the transaction.
+BEGIN;
+DELETE
+FROM animals;
+ROLLBACK;
+SELECT * FROM animals;
+
+
+-- Inside a transaction:
+-- Delete all animals born after Jan 1st, 2022.
+-- Create a savepoint for the transaction.
+-- Update all animals' weight to be their weight multiplied by -1.
+-- Rollback to the savepoint
+-- Update all animals' weights that are negative to be their weight multiplied by -1.
+-- Commit transaction
+BEGIN;
+DELETE
+FROM animals
+WHERE date_of_birth > 'January 1, 2022';
+SAVEPOINT younger_deleted;
+UPDATE animals
+SET weight_kg = weight_kg * (-1);
+ROLLBACK TO younger_deleted;
+UPDATE animals
+SET weight_kg = weight_kg * (-1)
+WHERE weight_kg < 0;
+COMMIT;

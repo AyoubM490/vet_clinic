@@ -11,7 +11,6 @@ INSERT INTO owners(
   34
 );
 
-
 -- Insert 'Jennifer Orwell 19 years old.'
 INSERT INTO owners (
 	full_name,
@@ -259,6 +258,24 @@ INSERT into animals (
 	3
 );
 
+-- Animal: His name is Ditto. He was born on May 14th, 2022, and currently weighs 22kg. He is neutered and he has tried to escape 4 times.
+INSERT into animals (
+	name,
+	date_of_birth,
+	weight_kg,
+	neutered,
+	species_id,
+  owner_id,
+  escape_attempts
+) VALUES (
+	'Ditto',
+	'2022-05-14',
+	22,
+	true,
+  1,
+  4,
+	4
+);
 
 COMMIT;
 
