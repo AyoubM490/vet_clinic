@@ -56,7 +56,6 @@ INSERT INTO owners (
 	38
 );
 
-
 INSERT INTO species (
   name
 ) VALUES (
@@ -68,6 +67,104 @@ INSERT INTO species (
 ) VALUES (
   'Digimon'
 );
+
+-- Modify your inserted animals so it includes the species_id value:
+-- If the name ends in "mon" it will be Digimon
+BEGIN;
+UPDATE animals
+SET species_id = 'digimon'
+WHERE name LIKE '%mon';
+
+-- All other animals are Pokemon
+UPDATE animals
+SET species_id = 'pokemon'
+WHERE species_id IS NULL;
+COMMIT;
+
+-- Modify your inserted animals to include owner information (owner_id):
+-- Sam Smith owns Agumon
+-- Jennifer Orwell owns Gabumon and Pikachu
+-- Bob owns Devimon and Plantmon
+-- Melody Pond owns Charmander, Squirtle, and Blossom.
+-- Dean Winchester owns Angemon and Boarmon.
+UPDATE animals
+SET owner_id = CASE
+		WHEN NAME = 'Agumon'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = 'Sam Smith'
+		)
+		WHEN NAME = 'Gabumon'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = 'Jennifer Orwell'
+		)
+		WHEN NAME = 'Pikachu'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = "Jennifer Orwell"
+		)
+		WHEN NAME = 'Devimon'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = 'Bob'
+		)
+		WHEN NAME = 'Plantmon'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = "Melody Pond"
+		)
+		WHEN NAME = 'Charmander'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = 'Melody Pond'
+		)
+		WHEN NAME = 'Squirtle'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = 'Melody Pond'
+		)
+		WHEN NAME = 'Blossom'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = 'Melody Pond'
+		)
+		WHEN NAME = 'Angemon'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = 'Dean Winchester'
+		)
+		WHEN NAME = 'Boarmon'
+		THEN (
+			SELECT id
+			FROM owners
+			WHERE
+				full_name = 'Dean Winchester'
+		)
+	END;
+
+SELECT *
+FROM animals;
+
+COMMIT;
 
 -- Animal: His name is Agumon. He was born on Feb 3rd, 2020, and currently weighs 10.23kg. He was neutered and he has never tried to escape.
 INSERT INTO animals (
