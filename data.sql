@@ -72,13 +72,13 @@ INSERT INTO species (
 -- If the name ends in "mon" it will be Digimon
 BEGIN;
 UPDATE animals
-SET species = 'digimon'
+SET species_id = 'digimon'
 WHERE name LIKE '%mon';
 
 -- All other animals are Pokemon
 UPDATE animals
-SET species = 'pokemon'
-WHERE species IS NULL;
+SET species_id = 'pokemon'
+WHERE species_id IS NULL;
 COMMIT;
 
 -- Modify your inserted animals to include owner information (owner_id):
