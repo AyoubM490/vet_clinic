@@ -50,9 +50,9 @@ ALTER TABLE animals ADD CONSTRAINT fk_owner_table FOREIGN KEY(owner_id) REFERENC
 -- age: integer
 -- date_of_graduation: date
 CREATE TABLE vets(
-  id serial not null primary key,
+  id integer serial not null primary key,
   name VARCHAR(100),
-  age INT,
+  age integer,
   date_of_graduation date
 );
 CREATE TABLE specializations(
@@ -62,8 +62,8 @@ CREATE TABLE specializations(
   CONSTRAINT fk_vets FOREIGN KEY(vet_id) REFERENCES vets(id)
 );
 CREATE TABLE visits(
-  animal_id int,
-  vet_id int,
+  animal_id integer,
+  vet_id integer,
   date_of_visit date,
   CONSTRAINT fk_vets FOREIGN KEY(vet_id) REFERENCES vets(id),
   CONSTRAINT fk_animals FOREIGN KEY(animal_id) REFERENCES animals(id)
