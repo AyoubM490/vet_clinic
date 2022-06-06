@@ -68,3 +68,5 @@ CREATE TABLE visits(
   CONSTRAINT fk_vets FOREIGN KEY(vet_id) REFERENCES vets(id),
   CONSTRAINT fk_animals FOREIGN KEY(animal_id) REFERENCES animals(id)
 );
+
+alter table owners add column email varchar(120);
